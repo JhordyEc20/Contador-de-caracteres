@@ -1,36 +1,38 @@
 <?php
 
-
 	if (!empty($_GET['user_text'])) {
-		$string_longitud = strlen($_GET['user_text']); //4 GGGG
-		$user_string = $_GET['user_text']; //GGGG
-		$conteo_letra_mayus = 0;
-		$conteo_letra_minus = 0;
+		$_GET['user_text'] = str_replace(' ', '', $_GET['user_text']);
+		
+		$get_url = [
+			'length' => mb_strlen($_GET['user_text']),
+			'text' => $_GET['user_text']
+		];	
 
-		for ($i=0; $i < $string_longitud; $i++) {
-			$conteo_letra_mayus += contar_mayuscula($user_string[$i]);
-			$conteo_letra_minus += contar_minuscula($user_string[$i]);
+		$conteo_letra = [
+			'upper' => 0,
+			'lower' => 0
+		];
+
+		for ($i=0; $i < $get_url['length']; $i++) {
+			$conteo_letra['upper'] += contar_mayuscula($get_url['text'][$i]);
+			$conteo_letra['lower'] += contar_minuscula($get_url['text'][$i]);
 		}
 
-		$date_mayus = $conteo_letra_mayus; 
-		$date_minus = $conteo_letra_minus;
-		header("Location:./index.php?date_mayus=$date_mayus&date_minus=$date_minus");
-	}
+		$env_url = "date_mayus=".$conteo_letra['upper'];
+		$env_url .="&date_minus=".$conteo_letra['lower'];
 
+		header("Location:./index.php?".$env_url);
+	}
 
 
 	function contar_mayuscula($caracter) {
 		if (mb_strtoupper($caracter) == $caracter) {
 			return 1;
-		} else {
-			return 0;
 		}
 	}
 
 	function contar_minuscula($caracter) {
 		if(mb_strtolower($caracter) == $caracter) {
 			return 1;
-		} else {
-			return 0;
 		}
 	}
