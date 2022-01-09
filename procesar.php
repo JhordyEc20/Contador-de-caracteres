@@ -1,7 +1,7 @@
 <?php
 
 	if (!empty($_GET['user_text'])) {
-		$_GET['user_text'] = preg_replace('([^A-Za-z0-9])', '', $_GET['user_text']);
+		$_GET['user_text'] = preg_replace('([^A-Za-z])', '', $_GET['user_text']);
 		
 		$get_url = [
 			'length' => mb_strlen($_GET['user_text']),
